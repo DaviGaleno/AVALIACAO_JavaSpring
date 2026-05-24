@@ -1,77 +1,94 @@
 package br.com.alunonline.api.service;
 
-import br.com.alunonline.api.MatriculaAlunoStatusEnum;
 import br.com.alunonline.api.dtos.AtualizarNotasRequestDTO;
+import br.com.alunonline.api.dtos.DisciplinasAlunoResponseDTO;
+import br.com.alunonline.api.dtos.HistoricoAlunoResponseDTO;
+import br.com.alunonline.api.MatriculaAlunoStatusEnum;
+import br.com.alunonline.api.model.Aluno;
 import br.com.alunonline.api.model.MatriculaAluno;
 import br.com.alunonline.api.repository.MatriculaAlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class MatriculaAlunoService {
 
+    private static final Double MEDIA_PARA_APROVACAO = 7.0;
+
     @Autowired
     MatriculaAlunoRepository matriculaAlunoRepository;
 
-    private static final Double MEDIA_PARA_APROVACAO = 7.0;
-
-    public void criarMatricula(MatriculaAluno matriculaAluno){
+    public void criarMatricula(MatriculaAluno matriculaAluno) {
         matriculaAluno.setStatus(MatriculaAlunoStatusEnum.MATRICULADO);
         matriculaAlunoRepository.save(matriculaAluno);
     }
 
     public void trancarMatricula(Long id) {
+        MatriculaAluno matricula = matriculaAlunoRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Matricula não encontrada"));
 
-        // 1) Buscar a matrícula — se não existir, 404
-        MatriculaAluno matricula =
-                matriculaAlunoRepository.findById(id)
-                        .orElseThrow(() -> new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Matricula não encontrada"));
-
-        // 2) Só pode trancar se estiver MATRICULADO
-        if (matricula.getStatus()
-                .equals(MatriculaAlunoStatusEnum.MATRICULADO)) {
-            matricula.setStatus(
-                    MatriculaAlunoStatusEnum.TRANCADO);
+        if (matricula.getStatus().equals(MatriculaAlunoStatusEnum.MATRICULADO)) {
+            matricula.setStatus(MatriculaAlunoStatusEnum.TRANCADO);
             matriculaAlunoRepository.save(matricula);
         } else {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Só é possível trancar com status MATRICULADO");
         }
     }
 
-    public void atualizarNotas(Long id,
-                               AtualizarNotasRequestDTO dto) {
+    public void atualizarNotas(Long id, AtualizarNotasRequestDTO dto) {
+        MatriculaAluno matricula = matriculaAlunoRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Matricula não encontrada"));
 
-        // 1) Buscar matrícula (mesmo padrão do trancar)
-        MatriculaAluno matricula =
-                matriculaAlunoRepository.findById(id)
-                        .orElseThrow(() -> new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Matricula não encontrada"));
+        if (dto.getNota1() != null) matricula.setNota1(dto.getNota1());
+        if (dto.getNota2() != null) matricula.setNota2(dto.getNota2());
 
-        // 2) Só atualiza o que veio preenchido (PATCH parcial!)
-        if (dto.getNota1() != null)
-            matricula.setNota1(dto.getNota1());
-        if (dto.getNota2() != null)
-            matricula.setNota2(dto.getNota2());
-
-        // 3) Se as 2 notas existem, calcula média e define status
-        if (matricula.getNota1() != null
-                && matricula.getNota2() != null) {
-            Double media = (matricula.getNota1()
-                    + matricula.getNota2()) / 2;
-            matricula.setStatus(
-                    media >= MEDIA_PARA_APROVACAO
-                            ? MatriculaAlunoStatusEnum.APROVADO
-                            : MatriculaAlunoStatusEnum.REPROVADO);
+        if (matricula.getNota1() != null && matricula.getNota2() != null) {
+            Double media = (matricula.getNota1() + matricula.getNota2()) / 2;
+            matricula.setStatus(media >= MEDIA_PARA_APROVACAO
+                    ? MatriculaAlunoStatusEnum.APROVADO
+                    : MatriculaAlunoStatusEnum.REPROVADO);
         }
 
-        // 4) Salvar a matrícula atualizada
         matriculaAlunoRepository.save(matricula);
+    }
+
+    public HistoricoAlunoResponseDTO emitirHistorico(Long alunoId) {
+        List<MatriculaAluno> matriculas =
+                matriculaAlunoRepository.findByAlunoId(alunoId);
+
+        if (matriculas.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Nenhuma matrícula encontrada para esse aluno");
+        }
+
+        Aluno aluno = matriculas.get(0).getAluno();
+        List<DisciplinasAlunoResponseDTO> disciplinas = new ArrayList<>();
+
+        for (MatriculaAluno matricula : matriculas) {
+            DisciplinasAlunoResponseDTO disc = new DisciplinasAlunoResponseDTO();
+            disc.setNomeDisciplina(matricula.getDisciplina().getNome());
+            disc.setNomeProfessor(matricula.getDisciplina().getProfessor().getNomeCompleto());
+            disc.setNota1(matricula.getNota1());
+               disc.setNota2(matricula.getNota2());
+            if (matricula.getNota1() != null && matricula.getNota2() != null) {
+                disc.setMedia((matricula.getNota1() + matricula.getNota2()) / 2);
+            }
+            disc.setStatus(matricula.getStatus());
+            disciplinas.add(disc);
+        }
+
+        HistoricoAlunoResponseDTO historico = new HistoricoAlunoResponseDTO();
+        historico.setNomeAluno(aluno.getNomeCompleto());
+        historico.setEmailAluno(aluno.getEmail());
+        historico.setCpfAluno(aluno.getCpf());
+        historico.setDisciplinas(disciplinas);
+        return historico;
     }
 }
