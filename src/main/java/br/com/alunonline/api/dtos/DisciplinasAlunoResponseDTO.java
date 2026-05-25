@@ -1,6 +1,6 @@
 package br.com.alunonline.api.dtos;
 
-import br.com.alunonline.api.MatriculaAlunoStatusEnum;
+import br.com.alunonline.api.enums.MatriculaAlunoStatusEnum;
 import lombok.Data;
 
 @Data

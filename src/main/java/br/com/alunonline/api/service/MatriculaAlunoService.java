@@ -3,7 +3,7 @@ package br.com.alunonline.api.service;
 import br.com.alunonline.api.dtos.AtualizarNotasRequestDTO;
 import br.com.alunonline.api.dtos.DisciplinasAlunoResponseDTO;
 import br.com.alunonline.api.dtos.HistoricoAlunoResponseDTO;
-import br.com.alunonline.api.MatriculaAlunoStatusEnum;
+import br.com.alunonline.api.enums.MatriculaAlunoStatusEnum;
 import br.com.alunonline.api.model.Aluno;
 import br.com.alunonline.api.model.MatriculaAluno;
 import br.com.alunonline.api.repository.MatriculaAlunoRepository;
