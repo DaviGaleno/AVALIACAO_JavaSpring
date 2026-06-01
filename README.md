@@ -311,7 +311,8 @@ Essa arquitetura permite melhor organização, manutenção e escalabilidade do 
 
 ## Cadastro de Aluno
 
-INSERIR PRINT AQUI
+<img width="773" height="390" alt="image" src="https://github.com/user-attachments/assets/106d0898-9e43-4853-a1e8-d863bd9a91cf" />
+
 
 ```md
 ![Cadastro de Aluno](docs/post-aluno.png)
@@ -321,7 +322,8 @@ INSERIR PRINT AQUI
 
 ## Cadastro de Professor
 
-INSERIR PRINT AQUI
+<img width="777" height="355" alt="image" src="https://github.com/user-attachments/assets/fa013d9b-c861-4489-a276-bd38006254d3" />
+
 
 ```md
 ![Cadastro de Professor](docs/post-professor.png)
@@ -331,7 +333,8 @@ INSERIR PRINT AQUI
 
 ## Cadastro de Disciplina
 
-INSERIR PRINT AQUI
+<img width="798" height="408" alt="image" src="https://github.com/user-attachments/assets/d2f95d1d-d6c0-4c9d-8a2c-6be78ab64cc9" />
+
 
 ```md
 ![Cadastro de Disciplina](docs/post-disciplina.png)
@@ -341,7 +344,8 @@ INSERIR PRINT AQUI
 
 ## Matrícula de Aluno
 
-INSERIR PRINT AQUI
+<img width="760" height="440" alt="image" src="https://github.com/user-attachments/assets/323e13cf-6aed-4213-8e68-b8831630ce6c" />
+
 
 ```md
 ![Matrícula](docs/post-matricula.png)
@@ -351,7 +355,8 @@ INSERIR PRINT AQUI
 
 ## Atualização de Notas
 
-INSERIR PRINT AQUI
+<img width="780" height="400" alt="image" src="https://github.com/user-attachments/assets/a0ef66e9-0386-4623-ae0c-0d5a2f3d4fcb" />
+
 
 ```md
 ![Atualização de Notas](docs/patch-notas.png)
@@ -361,7 +366,8 @@ INSERIR PRINT AQUI
 
 ## Emissão de Histórico
 
-INSERIR PRINT AQUI
+<img width="806" height="599" alt="image" src="https://github.com/user-attachments/assets/798d61d5-9a0b-4646-9950-17c3fd176613" />
+
 
 ```md
 ![Histórico](docs/historico.png)
@@ -373,7 +379,8 @@ INSERIR PRINT AQUI
 
 ## Tabela Aluno
 
-Inserir print da tabela aluno contendo os registros utilizados nos testes.
+<img width="688" height="484" alt="image" src="https://github.com/user-attachments/assets/f5e8f551-ad91-413b-b1b7-7da9a5bac6ef" />
+
 
 ```md
 ![Tabela Aluno](docs/tabela-aluno.png)
@@ -383,7 +390,8 @@ Inserir print da tabela aluno contendo os registros utilizados nos testes.
 
 ## Tabela Professor
 
-Inserir print da tabela professor contendo os registros utilizados nos testes.
+<img width="744" height="377" alt="image" src="https://github.com/user-attachments/assets/d98cde84-4b7d-4f50-a906-e73f92c15f97" />
+
 
 ```md
 ![Tabela Professor](docs/tabela-professor.png)
@@ -393,7 +401,8 @@ Inserir print da tabela professor contendo os registros utilizados nos testes.
 
 ## Tabela Disciplina
 
-Inserir print da tabela disciplina.
+<img width="734" height="344" alt="image" src="https://github.com/user-attachments/assets/987483d7-cb8e-4851-8a64-a9222cc149a8" />
+
 
 ```md
 ![Tabela Disciplina](docs/tabela-disciplina.png)
@@ -403,7 +412,8 @@ Inserir print da tabela disciplina.
 
 ## Tabela MatriculaAluno
 
-Inserir print da tabela matrícula.
+<img width="906" height="377" alt="image" src="https://github.com/user-attachments/assets/294ff7fa-cd8f-4d7b-9439-346e787c2771" />
+
 
 ```md
 ![Tabela Matricula](docs/tabela-matricula.png)
